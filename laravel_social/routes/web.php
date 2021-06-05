@@ -23,3 +23,14 @@ Route::get('/home', 'LoggedController@index')
 
 Route::get('new_user', 'LoggedController@new_user')
     ->name('new_user');
+
+Route::get('/show/user/{id}', 'LoggedController@show_user')
+    -> name('show_user');
+
+Route::get('/show/topic/{id}', 'LoggedController@show_topic')
+-> name('show_topic');
+
+Route::get('create/post', 'LoggedController@create_post')
+    -> name('create_post');
+Route::post('submit/post', 'LoggedController@submit_post')
+    -> name('submit_post');

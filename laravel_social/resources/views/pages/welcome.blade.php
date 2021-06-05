@@ -22,11 +22,14 @@
                             {{ Auth::user()->name }}
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('show_user', Auth::user() ->id) }}">
+                                See your profile
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -48,10 +51,22 @@
                 @foreach ($posts as $post)
                     <li>
                         <h3>
+                            Title:
                             {{ $post -> title }}
                         </h3>
+                        <h4>
+                            Topics: 
+                            @foreach ($post -> topics as $topic)
+                                <a href="{{ route('show_topic', $topic -> id) }}">
+                                    {{ $topic -> name }}   
+                                </a>
+                                @if ($loop -> index < ($loop -> count - 1))
+                                    -
+                                @endif                             
+                            @endforeach
+                        </h4>
                         <div>
-                            {{ $post -> content }}
+                            Content: {{ $post -> content }}
                         </div>
                         <br>
                         <ul>
@@ -60,7 +75,9 @@
                             @endif
                             @foreach ($post -> comments as $comment)
                                 <li>
-                                    {{ $comment -> user -> name}}
+                                    <a href="{{ route('show_user', $comment -> user -> id) }}">
+                                        {{ $comment -> user -> name}}
+                                    </a>
                                     <br>
                                     {{ $comment -> content }}
                                 </li>
