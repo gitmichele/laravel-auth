@@ -90,4 +90,29 @@ class LoggedController extends Controller
 
         return redirect() -> back();
     }
+
+    public function update($id) {
+
+        $post = Post::findOrFail($id);
+        $topics = Topic::all();
+
+        return view('pages.update_post', compact('post', 'topics'));
+    }
+
+    public function submit(Request $request, $id) {
+
+        $validate_data = $request -> validate ([
+
+            'title' => ['required', 'max:128'],
+            'content' => ['required'],
+            ]);       
+
+        $post = Post::findOrFail($id);
+        $post -> update($validate_data);
+        
+        $post -> topics() -> sync($request -> get('topic_id'));
+        $post -> save();
+
+        return redirect() -> route('show_user', Auth::user() -> id);
+    }
 }

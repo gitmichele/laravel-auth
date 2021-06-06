@@ -30,6 +30,10 @@
                     <a href="{{ route('delete', $post -> id)}}">
                         Elimina
                     </a>
+
+                    <a href="{{ route('update', $post -> id) }}">
+                        Modifica
+                    </a>
                 @endif
             </li>
         @endif

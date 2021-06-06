@@ -90,9 +90,13 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            @if ($post -> user -> id == Auth::user() -> id)
+                            @if (Auth::user() && $post -> user -> id == Auth::user() -> id)
                                 <a href="{{ route('delete', $post -> id) }}">
                                     Elimina
+                                </a>
+
+                                <a href="{{ route('update', $post -> id) }}">
+                                    Modifica
                                 </a>
                             @endif
                             <hr>
