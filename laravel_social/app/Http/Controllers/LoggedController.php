@@ -38,8 +38,9 @@ class LoggedController extends Controller
     public function show_user($id) {
 
         $this_user = User::findOrFail($id);
+        $this_user_posts = $this_user -> posts() -> get() -> reverse();
 
-        return view('pages.show_user', compact('this_user'));
+        return view('pages.show_user', compact('this_user','this_user_posts'));
 
     }
 
@@ -52,7 +53,9 @@ class LoggedController extends Controller
 
     public function create_post() {
         
-        return view('pages.create_post');
+        $topics = Topic::all();
+
+        return view('pages.create_post', compact('topics'));
     }
 
     public function submit_post(Request $request) {
@@ -60,18 +63,20 @@ class LoggedController extends Controller
         $validate_data = $request -> validate ([
 
             'title' => ['required', 'max:128'],
-            'content' => ['required']
-
+            'content' => ['required'],
             ]);       
 
-            $user_id = Auth::user() -> id;
-            $user = User::findOrFail($user_id);
+    
+        $user_id = Auth::user() -> id;
+        $user = User::findOrFail($user_id);
 
-            $post = Post::make($validate_data);
-            $post -> user() -> associate($user);
+        $post = Post::make($validate_data);
+        $post -> user() -> associate($user);
+        $post -> save();
 
-            $post -> save();
+        $post -> topics() -> attach($request -> get('topic_id'));
+        $post -> save();
 
-            return redirect() -> route('show_user', $user_id);
-        }
+        return redirect() -> route('show_user', $user_id);
+    }
 }

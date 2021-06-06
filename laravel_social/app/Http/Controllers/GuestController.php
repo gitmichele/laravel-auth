@@ -9,7 +9,7 @@ class GuestController extends Controller
 {
     public function welcome() {
 
-        $posts = Post::all();
+        $posts = Post::all() -> reverse();
 
         return view('pages.welcome', compact('posts'));
     }

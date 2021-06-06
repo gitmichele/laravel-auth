@@ -17,7 +17,7 @@
     </div>
 
     <ul>
-        @foreach ($this_user -> posts as $post)
+        @foreach ($this_user_posts as $post)
             <li>
                 <h3>
                     {{ $post -> title }}
