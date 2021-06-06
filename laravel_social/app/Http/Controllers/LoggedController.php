@@ -47,8 +47,9 @@ class LoggedController extends Controller
     public function show_topic($id) {
     
         $this_topic = Topic::findOrFail($id);
+        $this_topic_posts = $this_topic -> posts() -> get() -> reverse();
     
-        return view('pages.show_topic', compact('this_topic'));
+        return view('pages.show_topic', compact('this_topic', 'this_topic_posts'));
     }
 
     public function create_post() {
@@ -78,5 +79,15 @@ class LoggedController extends Controller
         $post -> save();
 
         return redirect() -> route('show_user', $user_id);
+    }
+
+    public function delete($id) {
+
+        $post = Post::findOrFail($id);
+
+        $post -> delete = true;
+        $post -> save();
+
+        return redirect() -> back();
     }
 }

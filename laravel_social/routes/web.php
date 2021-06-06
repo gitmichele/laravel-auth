@@ -34,3 +34,6 @@ Route::get('create/post', 'LoggedController@create_post')
     -> name('create_post');
 Route::post('submit/post', 'LoggedController@submit_post')
     -> name('submit_post');
+
+Route::get('delete/post/{id}', 'LoggedController@delete')
+    -> name('delete');

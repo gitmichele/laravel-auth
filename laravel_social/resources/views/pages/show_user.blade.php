@@ -18,6 +18,7 @@
 
     <ul>
         @foreach ($this_user_posts as $post)
+        @if ($post -> delete == false)
             <li>
                 <h3>
                     {{ $post -> title }}
@@ -25,7 +26,13 @@
                 <div>
                     {{ $post -> content }}
                 </div>
+                @if ($post -> user -> id == Auth::user() -> id)
+                    <a href="{{ route('delete', $post -> id)}}">
+                        Elimina
+                    </a>
+                @endif
             </li>
+        @endif
         @endforeach
     </ul>
 
